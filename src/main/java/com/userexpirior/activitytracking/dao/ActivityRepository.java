@@ -13,8 +13,8 @@ import com.userexpirior.activitytracking.to.ActivityOccurenceTO;
 @Repository
 public interface ActivityRepository extends JpaRepository<Activity, Long> {
 
-	@Query(value = "select new com.userexpirior.activitytracking.to.ActivityOccurenceTO(a.name,count(*)) from Activity a group by a.name")
-	public List<ActivityOccurenceTO> getActivityWiseCountForLastSevenDays();
+	@Query(value = "select new com.userexpirior.activitytracking.to.ActivityOccurenceTO(a.name,count(*)) from Activity a where a.time>=time group by a.name")
+	public List<ActivityOccurenceTO> getActivityWiseCountForLastSevenDays(@Param("time") Long time);
 
 	@Query(value = "select a from Activity a where a.time>=:time")
 	public List<Activity> getTodaysActivities(@Param("time") Long time);

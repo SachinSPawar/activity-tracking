@@ -23,14 +23,15 @@ public class ActivityStatisticsService {
 
 	public List<ActivityOccurenceTO> getSevenDayStatistics() {
 
-		return activityRepository.getActivityWiseCountForLastSevenDays();
+		long epochSecond = LocalDate.now().atStartOfDay().minusDays(7).toInstant(ZoneOffset.of("+05:30"))
+				.toEpochMilli();
+
+		return activityRepository.getActivityWiseCountForLastSevenDays(epochSecond);
 	}
 
 	public List<EmployeeActivitiesTO> getTodaysActivties() {
 
-		long epochSecond = LocalDate.now().atStartOfDay().toInstant(ZoneOffset.UTC).toEpochMilli();
-
-		// Calendar.getInstance().toInstant().atZone(ZoneId.systemDefault()).toEpochSecond()*1000;
+		long epochSecond = LocalDate.now().atStartOfDay().toInstant(ZoneOffset.of("+05:30")).toEpochMilli();
 
 		List<Activity> activities = activityRepository.getTodaysActivities(epochSecond);
 
